@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>لوحة التحكم - دعوة الزفاف</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --gold: #C9A84C; --gold-dark: #A08030; --bg: #FFFAF3; --bg-dark: #FFF5E6; --text: #2C1810; }
+    body { font-family: 'Amiri', serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 20px; }
+    .container { max-width: 900px; margin: 0 auto; }
+    header { text-align: center; padding: 40px 20px; }
+    header h1 { font-size: 2.5rem; color: var(--gold-dark); margin-bottom: 10px; }
+    header p { opacity: 0.7; }
+    .card { background: var(--bg-dark); border: 1px solid rgba(201,168,76,0.2); border-radius: 20px; padding: 30px; margin-bottom: 20px; }
+    .section-title { font-size: 1.4rem; color: var(--gold-dark); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid rgba(201,168,76,0.2); }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; color: var(--gold-dark); font-size: 0.95rem; }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 14px 18px; background: var(--bg); border: 1px solid rgba(201,168,76,0.25); border-radius: 12px; color: var(--text); font-family: inherit; font-size: 1rem; }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--gold); }
+    .form-group input::placeholder { color: rgba(44,24,16,0.3); }
+    .form-group textarea { min-height: 100px; resize: vertical; }
+    .form-group input[type="checkbox"] { width: auto; accent-color: var(--gold); }
+    .checkbox-label { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .program-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+    .program-row input { flex: 1; }
+    .remove-btn { padding: 10px 14px; background: rgba(192,57,43,0.1); border: 1px solid #c0392b; color: #c0392b; border-radius: 8px; cursor: pointer; }
+    .add-btn { width: 100%; padding: 12px; background: rgba(201,168,76,0.08); border: 2px dashed var(--gold); color: var(--gold-dark); border-radius: 12px; cursor: pointer; font-family: inherit; font-size: 1rem; }
+    .color-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .color-group { text-align: center; }
+    .color-group input[type="color"] { width: 100%; height: 50px; padding: 5px; cursor: pointer; }
+    .actions { position: sticky; bottom: 20px; display: flex; gap: 15px; justify-content: center; padding: 20px; background: var(--bg); border-radius: 16px; border: 1px solid rgba(201,168,76,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+    .save-btn { padding: 16px 40px; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); border: none; border-radius: 12px; color: #fff; font-family: inherit; font-size: 1.2rem; font-weight: 700; cursor: pointer; }
+    .preview-btn { padding: 16px 40px; background: transparent; border: 2px solid var(--gold); color: var(--gold-dark); border-radius: 12px; font-family: inherit; font-size: 1.2rem; text-decoration: none; display: inline-flex; align-items: center; }
+    .json-output { margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.05); border: 1px solid rgba(201,168,76,0.2); border-radius: 12px; font-family: monospace; font-size: 0.8rem; direction: ltr; min-height: 150px; display: none; color: var(--text); white-space: pre-wrap; word-break: break-all; }
+    .notification { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); z-index: 10000; padding: 18px 35px; background: var(--bg); border: 2px solid var(--gold); border-radius: 16px; color: var(--text); font-size: 1.1rem; opacity: 0; transition: all 0.5s ease; }
+    .notification.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    @media (max-width: 768px) { header h1 { font-size: 1.8rem; } .color-row { grid-template-columns: 1fr; } .actions { flex-direction: column; } .save-btn, .preview-btn { width: 100%; justify-content: center; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header><h1>💒 لوحة تحكم دعوة الزفاف</h1><p>عبي البيانات وأنشئ دعوتك الإلكترونية الفاخرة</p></header>
+
+    <div class="card">
+      <h2 class="section-title">المعلومات الأساسية</h2>
+      <div class="form-group"><label>اسم العريس *</label><input type="text" id="groomName" placeholder="عبدالله"></div>
+      <div class="form-group"><label>اسم العروس *</label><input type="text" id="brideName" placeholder="سارة"></div>
+      <div class="form-group"><label class="checkbox-label"><input type="checkbox" id="groomAbove"> <span>العريس فوق</span></label></div>
+      <div class="form-group"><label>العبارة الترحيبية</label><input type="text" id="subtitle" placeholder="يتشرفان بدعوتكم لحضور حفل زفافهما"></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">التاريخ والوقت</h2>
+      <div class="form-group"><label>نص التاريخ</label><input type="text" id="dateText" placeholder="السبت، 15 نوفمبر 2026"></div>
+      <div class="form-group"><label>نص الوقت</label><input type="text" id="timeText" placeholder="الساعة 8:00 مساءً"></div>
+      <div class="form-group"><label class="checkbox-label"><input type="checkbox" id="showCalendar" checked> <span>إظهار زر التقويم</span></label></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">نص الدعوة</h2>
+      <div class="form-group"><textarea id="invitationText" placeholder="بسم الله الرحمن الرحيم...
+
+يسرنا ويسعدنا أن ندعوكم..."></textarea></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">الأهل</h2>
+      <div class="form-group"><label class="checkbox-label"><input type="checkbox" id="showParents" checked> <span>إظهار فقرة الأهل</span></label></div>
+      <div class="form-group"><label>عائلة العريس</label><input type="text" id="groomParents" placeholder="محمد ونورة"></div>
+      <div class="form-group"><label>عائلة العروس</label><input type="text" id="brideParents" placeholder="أحمد وفاطمة"></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">القاعة</h2>
+      <div class="form-group"><label>اسم القاعة</label><input type="text" id="venueName" placeholder="قاعة الفيصلية الفاخرة"></div>
+      <div class="form-group"><label>العنوان</label><input type="text" id="venueAddress" placeholder="طريق الملك فهد، الرياض"></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">برنامج الحفل</h2>
+      <div id="programList"></div>
+      <button class="add-btn" onclick="addProgram()">+ إضافة فعالية</button>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">الملاحظات</h2>
+      <div class="form-group"><label>ملاحظات عامة</label><textarea id="notes" placeholder="نرجو تأكيد الحضور قبل..."></textarea></div>
+      <div class="form-group"><label>ملاحظة بارزة (اختياري)</label><input type="text" id="highlightNote" placeholder="🌟 رسالة مميزة"></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">الخاتمة والتواصل</h2>
+      <div class="form-group"><label>كلمة الختام</label><input type="text" id="closing" placeholder="نتطلع لرؤيتكم"></div>
+      <div class="form-group"><label>نص زر التواصل</label><input type="text" id="contactBtn" placeholder="تواصل معنا"></div>
+      <div class="form-group"><label>اسم جهة التواصل</label><input type="text" id="contactName" placeholder="أحمد"></div>
+      <div class="form-group"><label>رقم واتساب (مع رمز الدولة)</label><input type="tel" id="whatsapp" placeholder="+966500000000"></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">الصور (روابط)</h2>
+      <div class="form-group"><label>صورة العرسان</label><input type="url" id="coupleImg" placeholder="https://..."></div>
+      <div class="form-group"><label>صورة القاعة</label><input type="url" id="venueImg" placeholder="https://..."></div>
+      <div class="form-group"><label>خلفية</label><input type="url" id="bgImg" placeholder="https://..."></div>
+      <div class="form-group">
+        <label>صور الذكريات (4 صور)</label>
+        <input type="url" id="mem1" placeholder="رابط 1" style="margin-bottom:8px;">
+        <input type="url" id="mem2" placeholder="رابط 2" style="margin-bottom:8px;">
+        <input type="url" id="mem3" placeholder="رابط 3" style="margin-bottom:8px;">
+        <input type="url" id="mem4" placeholder="رابط 4">
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">الموسيقى والإعدادات</h2>
+      <div class="form-group"><label>رابط يوتيوب (Embed)</label><input type="url" id="musicUrl" placeholder="https://www.youtube.com/embed/..."></div>
+      <div class="form-group"><label class="checkbox-label"><input type="checkbox" id="rsvpEnabled" checked> <span>تفعيل تأكيد الحضور</span></label></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">ألوان القالب</h2>
+      <div class="color-row">
+        <div class="color-group"><label>الخلفية</label><input type="color" id="colorBg" value="#FFFAF3"></div>
+        <div class="color-group"><label>الذهبي</label><input type="color" id="colorGold" value="#C9A84C"></div>
+        <div class="color-group"><label>النص</label><input type="color" id="colorText" value="#2C1810"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">JSON Output</h2>
+      <textarea class="json-output" id="jsonOutput" readonly></textarea>
+    </div>
+
+    <div class="actions">
+      <button class="save-btn" onclick="saveData()">💾 حفظ وتحميل JSON</button>
+      <a href="index.html" class="preview-btn" target="_blank">🌐 معاينة</a>
+    </div>
+  </div>
+
+  <div class="notification" id="notification"></div>
+
+  <script>
+    function addProgram(time='', event='') {
+      const div = document.createElement('div');
+      div.className = 'program-row';
+      div.innerHTML = `<input type="text" placeholder="الوقت" value="${time}" class="prog-time"><input type="text" placeholder="الفعالية" value="${event}" class="prog-event"><button class="remove-btn" onclick="this.parentElement.remove()">🗑️</button>`;
+      document.getElementById('programList').appendChild(div);
+    }
+    addProgram('7:30 م', 'استقبال الضيوف');
+    addProgram('8:00 م', 'العشاء');
+    addProgram('9:00 م', 'حفل الزفاف');
+    addProgram('10:30 م', 'الرقص والاحتفال');
+
+    function saveData() {
+      const programs = [];
+      document.querySelectorAll('.program-row').forEach(row => {
+        const t = row.querySelector('.prog-time').value;
+        const e = row.querySelector('.prog-event').value;
+        if (t && e) programs.push({ time: t, event: e });
+      });
+      const data = {
+        groomName: document.getElementById('groomName').value || 'عبدالله',
+        brideName: document.getElementById('brideName').value || 'سارة',
+        groomNameAbove: document.getElementById('groomAbove').checked,
+        subtitle: document.getElementById('subtitle').value,
+        dateText: document.getElementById('dateText').value,
+        timeText: document.getElementById('timeText').value,
+        showCalendar: document.getElementById('showCalendar').checked,
+        invitationText: document.getElementById('invitationText').value,
+        parents: { show: document.getElementById('showParents').checked, groomParents: document.getElementById('groomParents').value, brideParents: document.getElementById('brideParents').value },
+        venue: { name: document.getElementById('venueName').value, address: document.getElementById('venueAddress').value },
+        program: programs,
+        notes: document.getElementById('notes').value,
+        highlightNote: document.getElementById('highlightNote').value,
+        closing: document.getElementById('closing').value,
+        contact: { buttonText: document.getElementById('contactBtn').value, name: document.getElementById('contactName').value, whatsapp: document.getElementById('whatsapp').value },
+        images: { couple: document.getElementById('coupleImg').value, venue: document.getElementById('venueImg').value, background: document.getElementById('bgImg').value, memories: [document.getElementById('mem1').value, document.getElementById('mem2').value, document.getElementById('mem3').value, document.getElementById('mem4').value] },
+        music: document.getElementById('musicUrl').value,
+        rsvpEnabled: document.getElementById('rsvpEnabled').checked,
+        theme: { bgColor: document.getElementById('colorBg').value, goldColor: document.getElementById('colorGold').value, textColor: document.getElementById('colorText').value }
+      };
+      const json = JSON.stringify(data, null, 2);
+      document.getElementById('jsonOutput').textContent = json;
+      document.getElementById('jsonOutput').style.display = 'block';
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'wedding-data.json'; a.click(); URL.revokeObjectURL(url);
+      showNotification('✅ تم الحفظ! انسخ الملف إلى مجلد data/');
+    }
+    function showNotification(msg) {
+      const n = document.getElementById('notification');
+      n.textContent = msg; n.classList.add('show');
+      setTimeout(() => n.classList.remove('show'), 5000);
+    }
+  </script>
+</body>
+</html>

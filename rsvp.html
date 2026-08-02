@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>تأكيد الحضور - دعوة الزفاف</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --gold: #C9A84C; --gold-dark: #A08030; --bg: #FFFAF3; --bg-dark: #FFF5E6; --text: #2C1810; }
+    body { font-family: 'Amiri', serif; background: linear-gradient(135deg, var(--bg) 0%, var(--bg-dark) 50%, var(--bg) 100%); color: var(--text); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .card { width: 100%; max-width: 480px; background: var(--bg-dark); border: 1px solid rgba(201,168,76,0.2); border-radius: 24px; padding: 40px; text-align: center; box-shadow: 0 20px 60px rgba(44,24,16,0.08); }
+    .card h1 { font-size: 2rem; color: var(--gold-dark); margin-bottom: 10px; }
+    .card p { opacity: 0.7; margin-bottom: 25px; }
+    .names { font-size: 1.4rem; color: var(--gold-dark); margin-bottom: 30px; }
+    .names .and { margin: 0 10px; animation: heartbeat 2s ease-in-out infinite; }
+    @keyframes heartbeat { 0%,100%{transform:scale(1)} 14%{transform:scale(1.15)} 28%{transform:scale(1)} 42%{transform:scale(1.15)} 70%{transform:scale(1)} }
+    .form-group { margin-bottom: 20px; text-align: right; }
+    .form-group label { display: block; margin-bottom: 8px; color: var(--gold-dark); font-size: 0.95rem; }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 14px 18px; background: var(--bg); border: 1px solid rgba(201,168,76,0.25); border-radius: 12px; color: var(--text); font-family: inherit; font-size: 1rem; }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--gold); }
+    .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
+    .radio-group label { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px 18px; background: var(--bg); border: 1px solid rgba(201,168,76,0.25); border-radius: 30px; flex: 1; justify-content: center; }
+    .radio-group input { width: auto; accent-color: var(--gold); }
+    .submit-btn { width: 100%; padding: 18px; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); border: none; border-radius: 14px; color: #fff; font-family: inherit; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; }
+    .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(201,168,76,0.3); }
+    .back-link { display: inline-block; margin-top: 20px; color: var(--gold-dark); text-decoration: none; }
+    .success { display: none; padding: 30px; }
+    .success.active { display: block; }
+    .success-icon { font-size: 4rem; margin-bottom: 15px; }
+    .success h2 { color: var(--gold-dark); margin-bottom: 10px; }
+    .notification { position: fixed; top: 20px; right: 20px; padding: 18px 30px; background: var(--bg); border: 2px solid var(--gold); border-radius: 16px; color: var(--text); transform: translateX(150%); opacity: 0; transition: all 0.5s ease; z-index: 10000; }
+    .notification.show { transform: translateX(0); opacity: 1; }
+    @media (max-width: 480px) { .card { padding: 25px; } .card h1 { font-size: 1.5rem; } }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div id="formView">
+      <h1>✨ تأكيد الحضور</h1>
+      <p>نحن متحمسون لرؤيتكم في يومنا المميز</p>
+      <div class="names"><span id="groomName">عبدالله</span><span class="and">&</span><span id="brideName">سارة</span></div>
+      <form id="rsvpForm">
+        <div class="form-group"><label>الاسم الكريم *</label><input type="text" name="name" placeholder="أدخل اسمك" required></div>
+        <div class="form-group"><label>رقم الجوال</label><input type="tel" name="phone" placeholder="05xxxxxxxx"></div>
+        <div class="form-group"><label>عدد الضيوف</label><select name="guests"><option value="1">1 شخص</option><option value="2">2 أشخاص</option><option value="3">3 أشخاص</option><option value="4">4 أشخاص</option><option value="5">5 أشخاص</option></select></div>
+        <div class="form-group"><label>حالة الحضور *</label><div class="radio-group"><label><input type="radio" name="attendance" value="attending" required> ✅ سأحضر</label><label><input type="radio" name="attendance" value="not-attending"> ❌ لن أتمكن</label><label><input type="radio" name="attendance" value="maybe"> 🤔 ربما</label></div></div>
+        <div class="form-group"><label>رسالة (اختياري)</label><textarea name="message" rows="3" placeholder="رسالتك..."></textarea></div>
+        <button type="submit" class="submit-btn">✨ إرسال</button>
+      </form>
+      <a href="index.html" class="back-link">← العودة للدعوة</a>
+    </div>
+    <div class="success" id="successView">
+      <div class="success-icon">🎉</div>
+      <h2>تم التأكيد!</h2>
+      <p>شكراً لك على تأكيد حضورك</p>
+      <a href="index.html" class="back-link">← العودة للدعوة</a>
+    </div>
+  </div>
+  <div class="notification" id="notification"></div>
+  <script>
+    document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = e.target.querySelector('.submit-btn');
+      btn.disabled = true; btn.textContent = '⏳ جاري الإرسال...';
+      const data = Object.fromEntries(new FormData(e.target));
+      try { await fetch('/api/rsvp', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) }); } catch(e){}
+      document.getElementById('formView').style.display = 'none';
+      document.getElementById('successView').classList.add('active');
+    });
+  </script>
+</body>
+</html>

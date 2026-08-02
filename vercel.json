@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "name": "wedding-invitation",
+  "rewrites": [
+    { "source": "/api/rsvp", "destination": "/api/rsvp.js" },
+    { "source": "/dashboard", "destination": "/dashboard.html" },
+    { "source": "/rsvp", "destination": "/rsvp.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "headers": [
+    { "source": "/data/(.*)", "headers": [
+      { "key": "Access-Control-Allow-Origin", "value": "*" },
+      { "key": "Content-Type", "value": "application/json" }
+    ]}
+  ],
+  "functions": { "api/rsvp.js": { "maxDuration": 10 } }
+}
