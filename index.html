@@ -828,13 +828,6 @@
       if (doorOpened) return;
       if (knockCount >= 3) return;
 
-      // تشغيل الأغنية بالصوت بعد أول طرقة
-      if (knockCount === 0) {
-        musicPlaying = true;
-        musicBtn.textContent = '🔊';
-        musicFrame.src = 'https://www.youtube.com/embed/4tDYMayp6Dk?autoplay=1&mute=0&loop=1&playlist=4tDYMayp6Dk';
-      }
-
       knockCount++;
       knockCountEl.textContent = `(${knockCount}/3)`;
 
@@ -860,6 +853,13 @@
         const flyingBirdsContainer = document.getElementById('flyingBirdsContainer');
         flyingBirdsContainer.style.opacity = '0.5';
         flyingBirds.play();
+
+        // تشغيل الموسيقى (بعد تفاعل المستخدم — يشتغل على الهاتف!)
+        if (!musicPlaying) {
+          musicPlaying = true;
+          musicBtn.textContent = '🔊';
+          musicFrame.src = 'https://www.youtube.com/embed/4tDYMayp6Dk?autoplay=1&mute=0&loop=1&playlist=4tDYMayp6Dk';
+        }
 
         // Hide the UI text
         document.querySelector('.door-ui').style.transition = 'opacity 1s ease';
