@@ -850,25 +850,6 @@
           // Fade out overlay
           doorOverlay.classList.add('opened');
 
-          // Start effects after overlay fades
-          setTimeout(() => {
-            startBirds();
-            createPetals();
-            startMusic();
-          }, 1500);
-        });
-
-        // Fallback: if video doesn't trigger ended event, fade after 4 seconds
-        setTimeout(() => {
-          if (!doorOverlay.classList.contains('opened')) {
-            doorOverlay.classList.add('opened');
-            setTimeout(() => {
-              startBirds();
-              createPetals();
-              startMusic();
-            }, 1500);
-          }
-        }, 4000);
       }
     }
 
