@@ -615,11 +615,11 @@
   <!-- ROSE PETALS -->
   <div class="petals-container" id="petalsContainer"></div>
 
-  <!-- FLYING BIRDS VIDEO -->
-  <video class="flying-birds" id="flyingBirds" 
-         src="https://raw.githubusercontent.com/itsalaakhaled1-maker/wedding/master/birds-green.mp4"
+  <!-- FLYING BIRDS VIDEO (Transparent WebM) -->
+  <video id="flyingBirds" 
+         src="https://raw.githubusercontent.com/itsalaakhaled1-maker/wedding/master/birds-green.webm"
          preload="auto" muted playsinline loop
-         style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:60;pointer-events:none;opacity:0;transition:opacity 2s ease;mix-blend-mode:screen;">
+         style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:60;pointer-events:none;opacity:0;transition:opacity 2s ease;">
   </video>
 
   <!-- HERO -->
@@ -893,12 +893,6 @@
       document.querySelectorAll('.real-bird').forEach(b => b.classList.add('visible'));
     }
     
-      <!-- FLYING BIRDS VIDEO (Green Screen Removed via CSS) -->
-  <video class="flying-birds" id="flyingBirds" 
-         src="https://raw.githubusercontent.com/itsalaakhaled1-maker/wedding/master/birds-green.mp4"
-         preload="auto" muted playsinline loop
-         style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:60;pointer-events:none;opacity:0;transition:opacity 2s ease;mix-blend-mode:screen;">
-  </video>
 
     // ===== ROSE PETALS =====
     function createPetals() {
@@ -985,6 +979,5 @@
       entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(s => observer.observe(s));
-  </script>
-</body>
-</html>
+  
+    
