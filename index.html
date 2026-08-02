@@ -615,7 +615,7 @@
   <div class="petals-container" id="petalsContainer"></div>
 
   <!-- FLYING BIRDS VIDEO (White Background Removed) -->
-  <div id="flyingBirdsContainer" style="position:fixed;inset:0;z-index:60;pointer-events:none;opacity:0;transition:opacity 2s ease;mix-blend-mode:soft-light;">
+  <div id="flyingBirdsContainer" style="position:fixed;inset:0;z-index:60;pointer-events:none;opacity:0;transition:opacity 2s ease;mix-blend-mode:multiply;">
     <video id="flyingBirds" 
            src="https://raw.githubusercontent.com/itsalaakhaled1-maker/wedding/master/birds-green.webm"
            preload="auto" muted playsinline loop
@@ -858,7 +858,7 @@
         // تشغيل فيديو الطيور
         const flyingBirds = document.getElementById('flyingBirds');
         const flyingBirdsContainer = document.getElementById('flyingBirdsContainer');
-        flyingBirdsContainer.style.opacity = '1';
+        flyingBirdsContainer.style.opacity = '0.5';
         flyingBirds.play();
 
         // Hide the UI text
