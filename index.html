@@ -588,7 +588,6 @@
 <base target="_blank">
 </head>
 <body>
-
   <!-- ===== FULLSCREEN DOOR VIDEO INTRO ===== -->
   <div class="door-overlay" id="doorOverlay">
     <div class="door-video-container" id="doorContainer">
@@ -817,6 +816,12 @@
     }
     doorVideo.load();
 
+    // ===== MUSIC VARIABLES (declared early for handleKnock) =====
+    const musicBtn = document.getElementById('musicBtn');
+    const musicFrame = document.getElementById('musicFrame');
+    let musicPlaying = false;
+
+
     function handleKnock() {
       if (doorOpened) return;
       if (knockCount >= 3) return;
@@ -892,9 +897,7 @@
     function startBirds() {
       document.querySelectorAll('.real-bird').forEach(b => b.classList.add('visible'));
     }
-    
-
-    // ===== ROSE PETALS =====
+        // ===== ROSE PETALS =====
     function createPetals() {
       const container = document.getElementById('petalsContainer');
       const urls = [
@@ -916,9 +919,6 @@
     }
 
     // ===== MUSIC =====
-    const musicBtn = document.getElementById('musicBtn');
-    const musicFrame = document.getElementById('musicFrame');
-    let musicPlaying = false;
         musicBtn.addEventListener('click', () => {
       if (!musicPlaying) {
         // تشغيل مع صوت
@@ -948,8 +948,7 @@
     }
     updateCountdown();
     setInterval(updateCountdown, 1000);
-
-    // ===== RSVP =====
+        // ===== RSVP =====
     document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = e.target.querySelector('.submit-btn');
@@ -980,4 +979,6 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(s => observer.observe(s));
   
-    
+  </script>
+</body>
+</html>
