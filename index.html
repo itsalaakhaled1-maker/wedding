@@ -607,9 +607,7 @@
 
   <!-- MUSIC -->
   <button class="music-btn" id="musicBtn" title="تشغيل الموسيقى">🔇</button>
-  <div style="position:fixed;bottom:0;left:0;width:1px;height:1px;opacity:0;pointer-events:none;">
-    <iframe id="musicFrame" src="" frameborder="0" allow="autoplay"></iframe>
-  </div>
+  <audio id="audioPlayer" src="https://raw.githubusercontent.com/itsalaakhaled1-maker/wedding/master/wedding-song.mp3" preload="auto" loop></audio>
 
   <!-- ROSE PETALS -->
   <div class="petals-container" id="petalsContainer"></div>
@@ -820,7 +818,7 @@
 
     // ===== MUSIC VARIABLES (declared early for handleKnock) =====
     const musicBtn = document.getElementById('musicBtn');
-    const musicFrame = document.getElementById('musicFrame');
+    const audioPlayer = document.getElementById('audioPlayer');
     let musicPlaying = false;
 
 
@@ -858,7 +856,7 @@
         if (!musicPlaying) {
           musicPlaying = true;
           musicBtn.textContent = '🔊';
-          musicFrame.src = 'https://www.youtube.com/embed/4tDYMayp6Dk?autoplay=1&mute=0&loop=1&playlist=4tDYMayp6Dk';
+          audioPlayer.play().catch(e => console.log('Audio play failed:', e));
         }
 
         // Hide the UI text
@@ -922,17 +920,15 @@
     }
 
     // ===== MUSIC =====
-        musicBtn.addEventListener('click', () => {
+    musicBtn.addEventListener('click', () => {
       if (!musicPlaying) {
-        // تشغيل مع صوت
         musicPlaying = true;
         musicBtn.textContent = '🔊';
-        musicFrame.src = 'https://www.youtube.com/embed/4tDYMayp6Dk?autoplay=1&mute=0&loop=1&playlist=4tDYMayp6Dk';
+        audioPlayer.play().catch(e => console.log('Audio play failed:', e));
       } else {
-        // إيقاف
         musicPlaying = false;
         musicBtn.textContent = '🔇';
-        musicFrame.src = '';
+        audioPlayer.pause();
       }
     });
 
