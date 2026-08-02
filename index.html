@@ -534,43 +534,7 @@
     }
     .notification.show { transform: translateX(0); }
 
-    /* Real Birds */
-    .real-bird {
-      position: fixed;
-      z-index: 100;
-      opacity: 0;
-      transition: opacity 1s ease;
-      pointer-events: none;
-    }
-    .real-bird.visible { opacity: 1; }
-    .real-bird img { width: 60px; height: auto; }
-    .bird-1 { top: 15%; left: 10%; animation: fly1 12s ease-in-out infinite; }
-    .bird-2 { top: 25%; right: 15%; animation: fly2 15s ease-in-out infinite; animation-delay: 2s; }
-    .bird-3 { top: 40%; left: 5%; animation: fly3 18s ease-in-out infinite; animation-delay: 4s; }
-    .bird-4 { top: 10%; right: 25%; animation: fly4 14s ease-in-out infinite; animation-delay: 1s; }
-    @keyframes fly1 {
-      0%, 100% { transform: translate(0, 0) scaleX(1); }
-      25% { transform: translate(80px, -40px) scaleX(1); }
-      50% { transform: translate(150px, -20px) scaleX(-1); }
-      75% { transform: translate(60px, 30px) scaleX(-1); }
-    }
-    @keyframes fly2 {
-      0%, 100% { transform: translate(0, 0) scaleX(-1); }
-      25% { transform: translate(-100px, -60px) scaleX(-1); }
-      50% { transform: translate(-180px, -30px) scaleX(1); }
-      75% { transform: translate(-50px, 40px) scaleX(1); }
-    }
-    @keyframes fly3 {
-      0%, 100% { transform: translate(0, 0) scaleX(1); }
-      30% { transform: translate(120px, -80px) scaleX(1); }
-      60% { transform: translate(200px, -40px) scaleX(-1); }
-    }
-    @keyframes fly4 {
-      0%, 100% { transform: translate(0, 0) scaleX(-1); }
-      30% { transform: translate(-80px, -50px) scaleX(-1); }
-      60% { transform: translate(-160px, -20px) scaleX(1); }
-    }
-
+    
     /* Rose Petals */
     .petals-container {
       position: fixed;
