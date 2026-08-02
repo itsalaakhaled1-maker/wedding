@@ -851,7 +851,6 @@
           setTimeout(() => {
             startBirds();
             createPetals();
-            startMusic();
           }, 1500);
         });
 
@@ -862,7 +861,6 @@
             setTimeout(() => {
               startBirds();
               createPetals();
-              startMusic();
             }, 1500);
           }
         }, 4000);
@@ -905,13 +903,8 @@
     musicBtn.addEventListener('click', () => {
       musicPlaying = !musicPlaying;
       musicBtn.textContent = musicPlaying ? '🔊' : '🔇';
-      musicFrame.src = musicPlaying ? 'https://youtu.be/4tDYMayp6Dk?si=JXaCze8YILyP2ODv' : '';
+      musicFrame.src = musicPlaying ? 'https://www.youtube.com/embed/4tDYMayp6Dk?autoplay=1&mute=0&loop=1&playlist=4tDYMayp6Dk' : '';
     });
-    function startMusic() {
-      musicPlaying = true;
-      musicBtn.textContent = '🔊';
-      musicFrame.src = 'https://youtu.be/4tDYMayp6Dk?si=JXaCze8YILyP2ODv';
-    }
 
     // ===== COUNTDOWN =====
     function updateCountdown() {
@@ -953,6 +946,13 @@
     function addToCalendar() {
       window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('زفاف عبدالله وسارة')}&dates=20261115T170000Z/20261116T020000Z&details=${encodeURIComponent('دعوة لحضور حفل زفاف')}&location=${encodeURIComponent('قاعة الفيصلية، الرياض')}`, '_blank');
     }
+
+        // ===== AUTO PLAY MUSIC ON LOAD =====
+    window.addEventListener('load', () => {
+      musicPlaying = true;
+      musicBtn.textContent = '🔊';
+      musicFrame.src = 'https://www.youtube.com/embed/4tDYMayp6Dk?autoplay=1&mute=0&loop=1&playlist=4tDYMayp6Dk';
+    });
 
     // ===== SCROLL REVEAL =====
     const observer = new IntersectionObserver((entries) => {
