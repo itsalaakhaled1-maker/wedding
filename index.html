@@ -26,17 +26,17 @@
       overflow-x: hidden;
     }
 
-    /* ===== DOOR VIDEO INTRO ===== */
+    /* ===== FULLSCREEN DOOR VIDEO INTRO ===== */
     .door-overlay {
       position: fixed;
       inset: 0;
       z-index: 9999;
-      background: var(--bg);
+      background: #000;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      transition: opacity 1.5s ease, visibility 1.5s ease;
+      transition: opacity 2s ease, visibility 2s ease;
     }
     .door-overlay.opened {
       opacity: 0;
@@ -44,49 +44,65 @@
       pointer-events: none;
     }
     .door-video-container {
-      position: relative;
-      width: 320px;
-      height: 480px;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(44, 24, 16, 0.3);
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       cursor: pointer;
+      overflow: hidden;
     }
     .door-video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 8px;
+      display: block;
     }
     .door-knock-effect {
       position: absolute;
       inset: 0;
-      border-radius: 8px;
       box-shadow: inset 0 0 0 0 rgba(201, 168, 76, 0);
       transition: box-shadow 0.3s ease;
       pointer-events: none;
+      z-index: 2;
     }
     .door-knock-effect.knock {
-      box-shadow: inset 0 0 30px rgba(201, 168, 76, 0.5);
+      box-shadow: inset 0 0 60px rgba(201, 168, 76, 0.6);
+    }
+    .door-ui {
+      position: absolute;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      text-align: center;
+      pointer-events: none;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.7);
     }
     .knock-hint {
-      margin-top: 30px;
-      text-align: center;
-      color: var(--gold-dark);
-      font-size: 1.3rem;
+      color: var(--gold-light);
+      font-size: 1.6rem;
       font-family: 'Lateef', serif;
       animation: pulse 2s ease-in-out infinite;
+      margin-bottom: 10px;
     }
     .knock-count {
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: bold;
-      color: var(--text);
-      margin-top: 10px;
+      color: var(--white);
       font-family: 'Lateef', serif;
+    }
+    .knock-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      animation: knock-bounce 1.5s ease-in-out infinite;
     }
     @keyframes pulse {
       0%, 100% { opacity: 0.6; }
       50% { opacity: 1; }
+    }
+    @keyframes knock-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
 
     /* ===== MUSIC ===== */
@@ -377,27 +393,21 @@
     .program-item {
       display: flex;
       align-items: center;
-      gap: 25px;
+      gap: 20px;
       padding: 22px 25px;
-      margin-bottom: 15px;
+      margin: 12px 0;
+      border-radius: 16px;
       background: var(--white);
-      border-right: 3px solid var(--gold);
-      border-radius: 0 14px 14px 0;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 10px rgba(201, 168, 76, 0.05);
-    }
-    .program-item:hover {
-      transform: translateX(-5px);
-      box-shadow: 0 5px 20px rgba(201, 168, 76, 0.1);
+      border: 1px solid rgba(201, 168, 76, 0.15);
+      text-align: right;
+      box-shadow: 0 2px 12px rgba(201, 168, 76, 0.05);
     }
     .program-item .time {
       font-size: 1.1rem;
-      color: var(--gold-dark);
       font-weight: 700;
-      min-width: 80px;
+      color: var(--gold-dark);
+      min-width: 90px;
+      font-family: 'Lateef', serif;
     }
     .program-item .event { font-size: 1.1rem; color: var(--text); }
 
@@ -406,199 +416,179 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 15px;
-      max-width: 600px;
-      margin: 30px auto;
+      max-width: 500px;
+      margin: 30px auto 0;
     }
-    .memory-item {
-      aspect-ratio: 1;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 2px solid rgba(201, 168, 76, 0.2);
-      transition: all 0.4s ease;
-    }
-    .memory-item:hover {
-      transform: scale(1.03);
-      box-shadow: 0 10px 30px rgba(201, 168, 76, 0.15);
-    }
-    .memory-item img {
+    .memories-grid img {
       width: 100%;
-      height: 100%;
+      height: 220px;
       object-fit: cover;
+      border-radius: 16px;
+      border: 2px solid rgba(201, 168, 76, 0.2);
       transition: transform 0.4s ease;
     }
-    .memory-item:hover img { transform: scale(1.1); }
+    .memories-grid img:hover { transform: scale(1.03); }
 
     /* RSVP */
-    .rsvp-section {
-      padding: 80px 20px;
-      background: linear-gradient(180deg, var(--bg) 0%, var(--bg-dark) 50%, var(--bg) 100%);
-    }
     .rsvp-form {
-      max-width: 500px;
+      max-width: 480px;
       margin: 0 auto;
-      padding: 40px;
-      border: 1px solid rgba(201, 168, 76, 0.2);
-      border-radius: 24px;
-      background: var(--white);
-      box-shadow: 0 10px 40px rgba(201, 168, 76, 0.08);
-    }
-    .form-group {
-      margin-bottom: 22px;
       text-align: right;
     }
-    .form-group label {
+    .rsvp-form label {
       display: block;
       margin-bottom: 8px;
       color: var(--gold-dark);
-      font-size: 0.95rem;
+      font-size: 1rem;
     }
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
+    .rsvp-form input,
+    .rsvp-form select,
+    .rsvp-form textarea {
       width: 100%;
       padding: 14px 18px;
-      background: var(--bg);
-      border: 1px solid rgba(201, 168, 76, 0.25);
+      margin-bottom: 20px;
+      border: 1px solid rgba(201, 168, 76, 0.3);
       border-radius: 12px;
-      color: var(--text);
       font-family: inherit;
       font-size: 1rem;
-      transition: all 0.3s ease;
+      background: var(--white);
+      color: var(--text);
+      transition: border-color 0.3s ease;
     }
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
+    .rsvp-form input:focus,
+    .rsvp-form select:focus,
+    .rsvp-form textarea:focus {
       outline: none;
       border-color: var(--gold);
-      box-shadow: 0 0 15px rgba(201, 168, 76, 0.1);
+      box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.1);
     }
-    .form-group input::placeholder { color: rgba(44, 24, 16, 0.4); }
-    .radio-group {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .radio-group label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      padding: 12px 20px;
-      background: var(--bg);
-      border: 1px solid rgba(201, 168, 76, 0.25);
-      border-radius: 30px;
-      transition: all 0.3s ease;
-      flex: 1;
-      justify-content: center;
-      color: var(--text);
-    }
-    .radio-group label:hover {
-      background: rgba(201, 168, 76, 0.1);
-      border-color: var(--gold);
-    }
-    .radio-group input { width: auto; accent-color: var(--gold); }
-    .submit-btn {
+    .rsvp-form .submit-btn {
       width: 100%;
-      padding: 18px;
+      padding: 16px;
       background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-      border: none;
-      border-radius: 14px;
       color: var(--white);
+      border: none;
+      border-radius: 12px;
       font-family: inherit;
-      font-size: 1.2rem;
-      font-weight: 700;
+      font-size: 1.1rem;
       cursor: pointer;
       transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(201, 168, 76, 0.3);
     }
-    .submit-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(201, 168, 76, 0.3);
+    .rsvp-form .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(201, 168, 76, 0.4);
+    }
+    .rsvp-form .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
     }
 
     /* Footer */
-    .footer {
-      padding: 50px 20px;
+    .footer-section {
+      padding: 80px 20px;
       text-align: center;
-      border-top: 1px solid rgba(201, 168, 76, 0.15);
-      background: var(--bg-dark);
+      background: linear-gradient(180deg, var(--bg-dark), var(--bg));
     }
-    .footer-text {
-      font-size: 0.9rem;
+    .closing-text {
+      font-size: 1.3rem;
       color: var(--text-light);
-      opacity: 0.7;
+      margin-bottom: 30px;
+      line-height: 2;
+    }
+    .whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 40px;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: var(--white);
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+    }
+    .whatsapp-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
     }
 
     /* Notification */
     .notification {
       position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 10000;
-      padding: 18px 30px;
+      top: 30px;
+      right: 30px;
       background: var(--white);
-      border: 2px solid var(--gold);
-      border-radius: 16px;
       color: var(--text);
-      font-size: 1.1rem;
+      padding: 18px 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      z-index: 10000;
       transform: translateX(150%);
-      opacity: 0;
-      transition: all 0.5s ease;
-      box-shadow: 0 10px 30px rgba(201, 168, 76, 0.2);
+      transition: transform 0.5s ease;
+      border-right: 4px solid var(--gold);
+      font-size: 1.05rem;
     }
-    .notification.show {
-      transform: translateX(0);
-      opacity: 1;
-    }
+    .notification.show { transform: translateX(0); }
 
     /* Real Birds */
     .real-bird {
       position: fixed;
-      pointer-events: none;
-      z-index: 50;
+      z-index: 100;
       opacity: 0;
-      transition: opacity 0.5s;
+      transition: opacity 1s ease;
+      pointer-events: none;
     }
-    .real-bird.visible { opacity: 0.6; }
-    .real-bird img { width: 50px; height: auto; filter: sepia(0.3); }
-    .bird-1 { animation: fly1 14s linear infinite; top: 12vh; }
-    .bird-2 { animation: fly2 18s linear infinite; top: 30vh; animation-delay: 4s; }
-    .bird-3 { animation: fly3 12s linear infinite; top: 50vh; animation-delay: 8s; }
+    .real-bird.visible { opacity: 1; }
+    .real-bird img { width: 60px; height: auto; }
+    .bird-1 { top: 15%; left: 10%; animation: fly1 12s ease-in-out infinite; }
+    .bird-2 { top: 25%; right: 15%; animation: fly2 15s ease-in-out infinite; animation-delay: 2s; }
+    .bird-3 { top: 40%; left: 5%; animation: fly3 18s ease-in-out infinite; animation-delay: 4s; }
+    .bird-4 { top: 10%; right: 25%; animation: fly4 14s ease-in-out infinite; animation-delay: 1s; }
     @keyframes fly1 {
-      0% { transform: translateX(-100px) scale(0.5); }
-      100% { transform: translateX(calc(100vw + 100px)) scale(0.5); }
+      0%, 100% { transform: translate(0, 0) scaleX(1); }
+      25% { transform: translate(80px, -40px) scaleX(1); }
+      50% { transform: translate(150px, -20px) scaleX(-1); }
+      75% { transform: translate(60px, 30px) scaleX(-1); }
     }
     @keyframes fly2 {
-      0% { transform: translateX(-100px) scale(0.4); }
-      50% { transform: translateX(50vw) scale(0.6) translateY(-30px); }
-      100% { transform: translateX(calc(100vw + 100px)) scale(0.4); }
+      0%, 100% { transform: translate(0, 0) scaleX(-1); }
+      25% { transform: translate(-100px, -60px) scaleX(-1); }
+      50% { transform: translate(-180px, -30px) scaleX(1); }
+      75% { transform: translate(-50px, 40px) scaleX(1); }
     }
     @keyframes fly3 {
-      0% { transform: translateX(-100px) scale(0.6); }
-      100% { transform: translateX(calc(100vw + 100px)) scale(0.6); }
+      0%, 100% { transform: translate(0, 0) scaleX(1); }
+      30% { transform: translate(120px, -80px) scaleX(1); }
+      60% { transform: translate(200px, -40px) scaleX(-1); }
+    }
+    @keyframes fly4 {
+      0%, 100% { transform: translate(0, 0) scaleX(-1); }
+      30% { transform: translate(-80px, -50px) scaleX(-1); }
+      60% { transform: translate(-160px, -20px) scaleX(1); }
     }
 
-    /* Petals */
+    /* Rose Petals */
     .petals-container {
       position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 100;
+      z-index: 50;
       overflow: hidden;
     }
     .petal {
       position: absolute;
-      width: 18px;
-      height: 18px;
+      top: -50px;
       background-size: contain;
       background-repeat: no-repeat;
-      opacity: 0;
-      animation: petal-fall linear infinite;
+      opacity: 0.7;
+      animation: fall linear infinite;
     }
-    @keyframes petal-fall {
-      0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
-      10% { opacity: 0.7; }
-      90% { opacity: 0.7; }
-      100% { transform: translateY(110vh) rotate(720deg) translateX(50px); opacity: 0; }
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
     }
 
     /* Scroll Reveal */
@@ -613,38 +603,41 @@
     }
 
     /* Responsive */
-    @media (max-width: 768px) {
+    @media (max-width: 600px) {
       .names { font-size: 2.8rem; }
-      .names .and { font-size: 2rem; }
-      .door-video-container { width: 260px; height: 390px; }
+      .names .and { font-size: 2.2rem; }
+      .section { padding: 60px 15px; }
+      .section-title { font-size: 2rem; }
+      .memories-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .memories-grid img { height: 160px; }
       .countdown { gap: 10px; }
       .countdown-box { padding: 15px 18px; min-width: 70px; }
-      .countdown-box .num { font-size: 1.6rem; }
-      .memories-grid { gap: 10px; }
-      .parents-row { gap: 15px; }
-      .parent-card { min-width: 160px; padding: 20px 25px; }
-    }
-    @media (max-width: 480px) {
-      .names { font-size: 2.2rem; }
-      .door-video-container { width: 200px; height: 300px; }
+      .countdown-box .num { font-size: 1.8rem; }
+      .door-ui { bottom: 60px; }
+      .knock-hint { font-size: 1.2rem; }
+      .knock-count { font-size: 1.6rem; }
     }
   </style>
+<base target="_blank">
 </head>
 <body>
 
-  <!-- DOOR VIDEO INTRO -->
+  <!-- ===== FULLSCREEN DOOR VIDEO INTRO ===== -->
   <div class="door-overlay" id="doorOverlay">
     <div class="door-video-container" id="doorContainer">
-      <!-- Video: door closed (first frame) -->
+      <!-- Video fills entire screen, paused at first frame (closed door) -->
       <video class="door-video" id="doorVideo" 
              src="https://raw.githubusercontent.com/itsalaakhaled1-maker/wedding/master/door.mp4"
-             poster="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80"
-             preload="auto" muted playsinline>
+             preload="auto" muted playsinline
+             style="width:100%;height:100%;object-fit:cover;">
       </video>
       <div class="door-knock-effect" id="knockEffect"></div>
     </div>
-    <div class="knock-hint" id="knockHint">👆 اضغط على الباب للطرق</div>
-    <div class="knock-count" id="knockCount">(0/3)</div>
+    <div class="door-ui">
+      <div class="knock-icon">🚪</div>
+      <div class="knock-hint" id="knockHint">👆 اضغط على الباب للطرق</div>
+      <div class="knock-count" id="knockCount">(0/3)</div>
+    </div>
   </div>
 
   <!-- MUSIC -->
@@ -655,175 +648,192 @@
 
   <!-- REAL BIRDS -->
   <div class="real-bird bird-1" id="bird1"><img src="https://cdn-icons-png.flaticon.com/512/3069/3069187.png" alt="طائر"></div>
-  <div class="real-bird bird-2" id="bird2"><img src="https://cdn-icons-png.flaticon.com/512/3069/3069172.png" alt="طائر"></div>
-  <div class="real-bird bird-3" id="bird3"><img src="https://cdn-icons-png.flaticon.com/512/3069/3069190.png" alt="طائر"></div>
+  <div class="real-bird bird-2" id="bird2"><img src="https://cdn-icons-png.flaticon.com/512/3069/3069187.png" alt="طائر"></div>
+  <div class="real-bird bird-3" id="bird3"><img src="https://cdn-icons-png.flaticon.com/512/3069/3069187.png" alt="طائر"></div>
+  <div class="real-bird bird-4" id="bird4"><img src="https://cdn-icons-png.flaticon.com/512/3069/3069187.png" alt="طائر"></div>
 
   <!-- ROSE PETALS -->
   <div class="petals-container" id="petalsContainer"></div>
 
-  <!-- MAIN CONTENT -->
-  <main>
-    <!-- HERO -->
-    <section class="hero" id="hero">
-      <div class="flower-deco top-left">
-        <img src="https://images.unsplash.com/photo-1490750967868-88aa2f44c946?w=300&q=80" style="width:100%;border-radius:50%;opacity:0.6;" alt="">
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <img src="https://images.unsplash.com/photo-1490750967868-88aa4f44a07e?w=400&q=80" class="flower-deco top-left" alt="">
+    <img src="https://images.unsplash.com/photo-1490750967868-88aa4f44a07e?w=400&q=80" class="flower-deco top-right" alt="">
+
+    <div class="couple-ring reveal">
+      <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400&q=80" alt="صورة العرسان">
+    </div>
+
+    <h1 class="names reveal">
+      <span id="groomName">عبدالله</span>
+      <span class="and">&</span>
+      <span id="brideName">سارة</span>
+    </h1>
+    <p class="subtitle reveal">يتشرفان بدعوتكم لحضور حفل زفافهما</p>
+
+    <div class="countdown reveal">
+      <div class="countdown-box">
+        <span class="num" id="cdDays">--</span>
+        <span class="label">يوم</span>
       </div>
-      <div class="flower-deco top-right">
-        <img src="https://images.unsplash.com/photo-1490750967868-88aa2f44c946?w=300&q=80" style="width:100%;border-radius:50%;opacity:0.6;" alt="">
+      <div class="countdown-box">
+        <span class="num" id="cdHours">--</span>
+        <span class="label">ساعة</span>
       </div>
-
-      <div class="couple-ring" id="coupleRing">
-        <span class="placeholder">💑</span>
+      <div class="countdown-box">
+        <span class="num" id="cdMinutes">--</span>
+        <span class="label">دقيقة</span>
       </div>
-
-      <h1 class="names" id="coupleNames">
-        <span id="groomName">عبدالله</span>
-        <span class="and">&</span>
-        <span id="brideName">سارة</span>
-      </h1>
-
-      <p class="subtitle" id="subtitle">يتشرفان بدعوتكم لحضور حفل زفافهما</p>
-
-      <div class="countdown" id="countdown">
-        <div class="countdown-box"><span class="num" id="cdDays">--</span><span class="label">يوم</span></div>
-        <div class="countdown-box"><span class="num" id="cdHours">--</span><span class="label">ساعة</span></div>
-        <div class="countdown-box"><span class="num" id="cdMinutes">--</span><span class="label">دقيقة</span></div>
-        <div class="countdown-box"><span class="num" id="cdSeconds">--</span><span class="label">ثانية</span></div>
+      <div class="countdown-box">
+        <span class="num" id="cdSeconds">--</span>
+        <span class="label">ثانية</span>
       </div>
+    </div>
 
-      <div class="scroll-hint">⬇️</div>
-    </section>
+    <div class="scroll-hint reveal">⬇️</div>
+  </section>
 
-    <!-- INVITATION -->
-    <section class="section reveal" id="invitation">
-      <h2 class="section-title">الدعوة</h2>
-      <div class="gold-line"></div>
-      <div class="invitation-text" id="invitationText">
-        <span class="bismillah">بسم الله الرحمن الرحيم</span>
-        <br><br>
+  <!-- INVITATION TEXT -->
+  <section class="section reveal">
+    <h2 class="section-title">الدعوة</h2>
+    <div class="gold-line"></div>
+    <div class="invitation-text">
+      <span class="bismillah">بسم الله الرحمن الرحيم</span>
+      <p id="invitationBody">
         يسرنا ويسعدنا أن ندعوكم لحضور حفل زفافنا، حيث نبدأ رحلة حبنا ونبدأ حياتنا الجديدة معاً.
-        <br><br>
-        نأمل أن تشاركونا فرحتنا في هذا اليوم المبارك.
-      </div>
-      <div class="parents-row" id="parentsSection">
-        <div class="parent-card">
-          <div class="label">عائلة العريس</div>
-          <div class="name" id="groomParents">محمد ونورة</div>
-        </div>
-        <div class="parent-card">
-          <div class="label">عائلة العروس</div>
-          <div class="name" id="brideParents">أحمد وفاطمة</div>
-        </div>
-      </div>
-    </section>
+      </p>
+      <br>
+      <p id="invitationClosing">نأمل أن تشاركونا فرحتنا في هذا اليوم المبارك.</p>
+    </div>
 
-    <!-- DATE & TIME -->
-    <section class="section reveal" id="datetime">
-      <h2 class="section-title">التاريخ والوقت</h2>
-      <div class="gold-line"></div>
-      <div class="datetime-row">
-        <div class="datetime-card">
-          <div class="icon">📅</div>
-          <div class="value" id="weddingDate">السبت، 15 نوفمبر 2026</div>
-        </div>
-        <div class="datetime-card">
-          <div class="icon">🕐</div>
-          <div class="value" id="weddingTime">الساعة 8:00 مساءً</div>
-        </div>
+    <div class="parents-row reveal" id="parentsSection">
+      <div class="parent-card">
+        <div class="label">عائلة العريس</div>
+        <div class="name" id="groomParents">محمد ونورة</div>
       </div>
-      <button class="calendar-btn" onclick="addToCalendar()">📅 احفظ الموعد</button>
-    </section>
-
-    <!-- VENUE -->
-    <section class="section reveal" id="venue">
-      <h2 class="section-title">مكان الحفل</h2>
-      <div class="gold-line"></div>
-      <div class="venue-card">
-        <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800&q=80" alt="قاعة" class="venue-img" id="venueImg">
-        <div class="venue-info">
-          <div class="name" id="venueName">قاعة الفيصلية الفاخرة</div>
-          <div class="address" id="venueAddress">طريق الملك فهد، الرياض</div>
-        </div>
+      <div class="parent-card">
+        <div class="label">عائلة العروس</div>
+        <div class="name" id="brideParents">أحمد وفاطمة</div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- PROGRAM -->
-    <section class="section reveal" id="program">
-      <h2 class="section-title">برنامج الحفل</h2>
-      <div class="gold-line"></div>
-      <div id="programList">
-        <div class="program-item"><span class="time">7:30 م</span><span class="event">استقبال الضيوف</span></div>
-        <div class="program-item"><span class="time">8:00 م</span><span class="event">العشاء</span></div>
-        <div class="program-item"><span class="time">9:00 م</span><span class="event">حفل الزفاف</span></div>
-        <div class="program-item"><span class="time">10:30 م</span><span class="event">الرقص والاحتفال</span></div>
+  <!-- DATE & TIME -->
+  <section class="section reveal">
+    <h2 class="section-title">التاريخ والوقت</h2>
+    <div class="gold-line"></div>
+    <div class="datetime-row">
+      <div class="datetime-card">
+        <div class="icon">📅</div>
+        <div class="value" id="weddingDate">السبت، 15 نوفمبر 2026</div>
       </div>
-    </section>
-
-    <!-- MEMORIES -->
-    <section class="section reveal" id="memories">
-      <h2 class="section-title">بعض ذكرياتنا</h2>
-      <div class="gold-line"></div>
-      <div class="memories-grid" id="memoriesGrid">
-        <div class="memory-item"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=80" alt="ذكرى 1"></div>
-        <div class="memory-item"><img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400&q=80" alt="ذكرى 2"></div>
-        <div class="memory-item"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&q=80" alt="ذكرى 3"></div>
-        <div class="memory-item"><img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=400&q=80" alt="ذكرى 4"></div>
+      <div class="datetime-card">
+        <div class="icon">🕐</div>
+        <div class="value" id="weddingTime">الساعة 8:00 مساءً</div>
       </div>
-    </section>
+    </div>
+    <button class="calendar-btn" onclick="addToCalendar()">📆 احفظ الموعد</button>
+  </section>
 
-    <!-- RSVP -->
-    <section class="rsvp-section" id="rsvp">
-      <div class="section reveal">
-        <h2 class="section-title">تأكيد الحضور</h2>
-        <div class="gold-line"></div>
-        <p class="invitation-text" style="margin-bottom:30px;">نتطلع لرؤيتكم! يرجى تأكيد حضوركم أدناه</p>
-        <form class="rsvp-form" id="rsvpForm">
-          <div class="form-group">
-            <label>الاسم الكريم *</label>
-            <input type="text" name="name" placeholder="أدخل اسمك الكريم" required>
-          </div>
-          <div class="form-group">
-            <label>رقم الجوال</label>
-            <input type="tel" name="phone" placeholder="05xxxxxxxx">
-          </div>
-          <div class="form-group">
-            <label>عدد الضيوف</label>
-            <select name="guests">
-              <option value="1">1 شخص</option>
-              <option value="2">2 أشخاص</option>
-              <option value="3">3 أشخاص</option>
-              <option value="4">4 أشخاص</option>
-              <option value="5">5 أشخاص</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>حالة الحضور *</label>
-            <div class="radio-group">
-              <label><input type="radio" name="attendance" value="attending" required style="width:auto;"> ✅ سأحضر</label>
-              <label><input type="radio" name="attendance" value="not-attending" style="width:auto;"> ❌ لن أتمكن</label>
-              <label><input type="radio" name="attendance" value="maybe" style="width:auto;"> 🤔 ربما</label>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>رسالة للعرسان (اختياري)</label>
-            <textarea name="message" rows="3" placeholder="اكتب رسالتك الجميلة..."></textarea>
-          </div>
-          <button type="submit" class="submit-btn">✨ إرسال تأكيد الحضور</button>
-        </form>
+  <!-- VENUE -->
+  <section class="section reveal">
+    <h2 class="section-title">مكان الحفل</h2>
+    <div class="gold-line"></div>
+    <div class="venue-card">
+      <img class="venue-img" id="venueImg" src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800&q=80" alt="قاعة الحفل">
+      <div class="venue-info">
+        <div class="name" id="venueName">قاعة الفيصلية الفاخرة</div>
+        <div class="address" id="venueAddress">طريق الملك فهد، الرياض</div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-      <p class="footer-text">صنع بحب 💕 | دعوة زفاف إلكترونية</p>
-    </footer>
-  </main>
+  <!-- PROGRAM -->
+  <section class="section reveal">
+    <h2 class="section-title">برنامج الحفل</h2>
+    <div class="gold-line"></div>
+    <div id="programList">
+      <div class="program-item">
+        <div class="time">7:30 م</div>
+        <div class="event">استقبال الضيوف</div>
+      </div>
+      <div class="program-item">
+        <div class="time">8:00 م</div>
+        <div class="event">العشاء</div>
+      </div>
+      <div class="program-item">
+        <div class="time">9:00 م</div>
+        <div class="event">حفل الزفاف</div>
+      </div>
+      <div class="program-item">
+        <div class="time">10:30 م</div>
+        <div class="event">الرقص والاحتفال</div>
+      </div>
+    </div>
+  </section>
 
+  <!-- MEMORIES -->
+  <section class="section reveal">
+    <h2 class="section-title">بعض ذكرياتنا</h2>
+    <div class="gold-line"></div>
+    <div class="memories-grid" id="memoriesGrid">
+      <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=80" alt="ذكرى 1">
+      <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400&q=80" alt="ذكرى 2">
+      <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&q=80" alt="ذكرى 3">
+      <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=400&q=80" alt="ذكرى 4">
+    </div>
+  </section>
+
+  <!-- RSVP -->
+  <section class="section reveal">
+    <h2 class="section-title">تأكيد الحضور</h2>
+    <div class="gold-line"></div>
+    <p style="color:var(--text-light);margin-bottom:25px;">نتطلع لرؤيتكم! يرجى تأكيد حضوركم أدناه</p>
+    <form class="rsvp-form" id="rsvpForm">
+      <label>الاسم الكامل</label>
+      <input type="text" name="name" placeholder="اكتب اسمك الكامل" required>
+
+      <label>عدد الضيوف</label>
+      <select name="guests" required>
+        <option value="1">1 شخص</option>
+        <option value="2">2 أشخاص</option>
+        <option value="3">3 أشخاص</option>
+        <option value="4">4 أشخاص</option>
+        <option value="5+">5 أو أكثر</option>
+      </select>
+
+      <label>هل ستشاركنا فرحتنا؟</label>
+      <select name="attending" required>
+        <option value="yes">نعم، سأحضر بإذن الله 🎉</option>
+        <option value="no">آسف، لن أتمكن من الحضور</option>
+        <option value="maybe">ربما، سأؤكد لاحقاً</option>
+      </select>
+
+      <label>ملاحظات (اختياري)</label>
+      <textarea name="notes" rows="3" placeholder="أي ملاحظات خاصة..."></textarea>
+
+      <button type="submit" class="submit-btn">✨ إرسال تأكيد الحضور</button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <section class="footer-section reveal">
+    <p class="closing-text" id="closingText">
+      شكراً لكم على مشاركتنا هذه اللحظات السعيدة.<br>
+      نتطلع لرؤيتكم ونعدكم بأمسية لا تُنسى.
+    </p>
+    <a href="https://wa.me/966500000000" class="whatsapp-btn" id="whatsappLink" target="_blank">
+      💬 تواصل معنا
+    </a>
+  </section>
+
+  <!-- NOTIFICATION -->
   <div class="notification" id="notification"></div>
 
   <script>
-    // ===== DOOR VIDEO INTRO =====
+    // ===== FULLSCREEN DOOR VIDEO INTRO =====
     let knockCount = 0;
+    let doorOpened = false;
     const doorOverlay = document.getElementById('doorOverlay');
     const doorContainer = document.getElementById('doorContainer');
     const doorVideo = document.getElementById('doorVideo');
@@ -831,11 +841,22 @@
     const knockHint = document.getElementById('knockHint');
     const knockCountEl = document.getElementById('knockCount');
 
-    // Preload video
+    // Load video and pause at first frame (closed door visible)
+    doorVideo.addEventListener('loadeddata', function() {
+      doorVideo.currentTime = 0;
+      doorVideo.pause();
+    });
+    // Fallback: if video already loaded
+    if (doorVideo.readyState >= 2) {
+      doorVideo.currentTime = 0;
+      doorVideo.pause();
+    }
     doorVideo.load();
 
     function handleKnock() {
+      if (doorOpened) return;
       if (knockCount >= 3) return;
+
       knockCount++;
       knockCountEl.textContent = `(${knockCount}/3)`;
 
@@ -843,26 +864,52 @@
       knockEffect.classList.add('knock');
       setTimeout(() => knockEffect.classList.remove('knock'), 300);
 
-      // Shake container
-      doorContainer.style.transform = 'translateX(-5px)';
-      setTimeout(() => doorContainer.style.transform = 'translateX(5px)', 100);
-      setTimeout(() => doorContainer.style.transform = 'translateX(0)', 200);
+      // Shake the screen slightly
+      doorContainer.style.transform = 'scale(1.02)';
+      setTimeout(() => doorContainer.style.transform = 'scale(1)', 150);
 
-      if (knockCount === 1) knockHint.textContent = '🔔 طرقة أولى...';
-      if (knockCount === 2) knockHint.textContent = '🔔🔔 طرقة ثانية...';
-      if (knockCount >= 3) {
+      if (knockCount === 1) {
+        knockHint.textContent = '🔔 طرقة أولى...';
+      } else if (knockCount === 2) {
+        knockHint.textContent = '🔔🔔 طرقة ثانية...';
+      } else if (knockCount >= 3) {
+        doorOpened = true;
         knockHint.textContent = '✨ يُفتح الباب... مرحباً بكم!';
+        knockCountEl.textContent = '';
+
+        // Hide the UI text
+        document.querySelector('.door-ui').style.transition = 'opacity 1s ease';
+        document.querySelector('.door-ui').style.opacity = '0';
 
         // Play door opening video
         doorVideo.currentTime = 0;
         doorVideo.play();
 
-        setTimeout(() => {
+        // Wait for video to finish then fade out overlay
+        doorVideo.addEventListener('ended', function onEnded() {
+          doorVideo.removeEventListener('ended', onEnded);
+          // Fade out overlay
           doorOverlay.classList.add('opened');
-          startBirds();
-          createPetals();
-          startMusic();
-        }, 2000);
+
+          // Start effects after overlay fades
+          setTimeout(() => {
+            startBirds();
+            createPetals();
+            startMusic();
+          }, 1500);
+        });
+
+        // Fallback: if video doesn't trigger ended event, fade after 4 seconds
+        setTimeout(() => {
+          if (!doorOverlay.classList.contains('opened')) {
+            doorOverlay.classList.add('opened');
+            setTimeout(() => {
+              startBirds();
+              createPetals();
+              startMusic();
+            }, 1500);
+          }
+        }, 4000);
       }
     }
 
