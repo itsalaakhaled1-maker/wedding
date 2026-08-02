@@ -875,11 +875,6 @@
     doorContainer.addEventListener('click', handleKnock);
     doorContainer.addEventListener('touchstart', (e) => { e.preventDefault(); handleKnock(); });
 
-    // ===== BIRDS =====
-    function startBirds() {
-      document.querySelectorAll('.real-bird').forEach(b => b.classList.add('visible'));
-    }
-
     // ===== ROSE PETALS =====
     function createPetals() {
       const container = document.getElementById('petalsContainer');
